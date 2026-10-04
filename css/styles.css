@@ -2,11 +2,17 @@
    ROOT & RESET
    ============================================================ */
 :root {
-  /* Paleta principal — lila pastel elegante + acentos dorados */
+  /* Paleta principal — rango tonal lila/ciruela + dorado cálido luminoso */
   --clr-white:       #ffffff;
-  --clr-pink:        #9C7FC9;   /* lila pastel — botones, acentos, fondo de sección */
+  --clr-ivory:       #FBF7F0;   /* marfil pálido — rompe el blanco puro en fondos alternos */
+
+  --clr-pink:        #9C7FC9;   /* lila — botones, acentos, fondo de sección */
   --clr-pink-hover:  #7E62A8;   /* hover — un tono más profundo */
   --clr-pink-text:   #6A4F96;   /* texto lila oscuro — legible sobre blanco */
+  --clr-pink-pale:   #EDE4F7;   /* lila muy pálido — gradientes y fondos de tarjetas */
+
+  --clr-plum:        #4B2E6B;   /* ciruela/amatista profundo — énfasis y gradientes oscuros */
+  --clr-plum-deep:   #2E1B45;   /* ciruela casi negro — base de overlays oscuros */
 
   /* Grises con tinte lila sutil */
   --clr-gray-dark:   #2E2A3D;   /* texto principal — casi negro con tinte lila */
@@ -15,17 +21,24 @@
   --clr-gray-light:  #E7DCF2;   /* bordes con tinte lavanda */
   --clr-gray-bg:     #FAF6FD;   /* fondo alterno sutil */
 
-  /* Acentos dorados */
-  --clr-gold:        #C8A24C;   /* dorado elegante — bordes, íconos, gold-bar */
-  --clr-gold-light:  #E8D7A0;   /* dorado pálido — detalles suaves */
-  --clr-gold-dark:   #A17F2E;   /* dorado profundo — hover */
+  /* Acentos dorados — más cálidos y luminosos que el dorado original */
+  --clr-gold:        #D9A94A;   /* dorado elegante — bordes, íconos, gold-bar */
+  --clr-gold-light:  #F2DFA6;   /* dorado pálido — detalles suaves */
+  --clr-gold-dark:   #A9782A;   /* dorado profundo — hover */
+  --clr-gold-shine:  #FBEFC9;   /* highlight — efecto shimmer en botones */
+
+  /* Gradientes — profundidad en vez de bloques de color planos */
+  --grad-pink-section: radial-gradient(135% 160% at 50% -20%, var(--clr-pink) 0%, var(--clr-pink-hover) 55%, var(--clr-plum) 100%);
+  --grad-card:         linear-gradient(160deg, #ffffff 0%, #ffffff 65%, var(--clr-pink-pale) 130%);
+  --grad-ivory:        radial-gradient(120% 140% at 50% -10%, var(--clr-pink-pale) 0%, var(--clr-ivory) 45%, var(--clr-white) 85%);
 
   /* Sombras */
   --shadow-soft:         0 8px 32px rgba(0, 0, 0, 0.07);
   --shadow-pink:         0 4px 20px rgba(156, 127, 201, 0.45);
   --shadow-pink-hover:   0 8px 28px rgba(156, 127, 201, 0.55);
   --shadow-pink-subtle:  0 18px 48px rgba(156, 127, 201, 0.16);
-  --shadow-gold:         0 4px 18px rgba(200, 162, 76, 0.35);
+  --shadow-gold:         0 4px 18px rgba(217, 169, 74, 0.35);
+  --shadow-card:         0 14px 40px rgba(75, 46, 107, 0.14);
 
   --ff-script: 'Great Vibes', cursive;
   --ff-serif:  'Cormorant Garamond', serif;
@@ -244,10 +257,10 @@ a   { text-decoration: none; color: inherit; }
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(0, 0, 0, .18) 0%,
-    rgba(0, 0, 0, .08) 35%,
-    rgba(0, 0, 0, .45) 70%,
-    rgba(0, 0, 0, .78) 100%
+    rgba(46, 27, 69, .22) 0%,
+    rgba(30, 16, 46, .10) 35%,
+    rgba(26, 14, 40, .50) 70%,
+    rgba(16, 8, 26, .80) 100%
   );
 }
 
@@ -260,13 +273,24 @@ a   { text-decoration: none; color: inherit; }
   margin-top: 0;
 }
 
+.hero-crown {
+  width: 92px;
+  margin: 0 auto .9rem;
+  color: var(--clr-gold-light);
+  filter: drop-shadow(0 2px 10px rgba(217,169,74,.55));
+  opacity: 0;
+  transform: translateY(-14px);
+  animation: fadeDown .8s ease .2s forwards;
+}
+.hero-crown svg { width: 100%; height: auto; display: block; }
+
 .hero-pre {
   font-family: var(--ff-serif);
   font-style: italic;
   font-size: 1.15rem;
   letter-spacing: 0.28em;
   color: #fff;
-  margin-bottom: 0.6rem;
+  margin-bottom: 1.4rem;
   opacity: 0;
   transform: translateY(22px);
   animation: fadeUp .8s ease .4s forwards;
@@ -311,7 +335,11 @@ a   { text-decoration: none; color: inherit; }
 .hero-sep-line:last-child {
   background: linear-gradient(to left, transparent, rgba(255,255,255,.8));
 }
-.hero-sep-icon { color: #fff; font-size: 1.1rem; }
+.hero-sep-icon {
+  color: #fff;
+  font-size: 1.1rem;
+  text-shadow: 0 0 10px rgba(217,169,74,.65);
+}
 
 .hero-date {
   font-family: var(--ff-serif);
@@ -323,7 +351,9 @@ a   { text-decoration: none; color: inherit; }
 }
 
 .hero-cta {
+  position: relative;
   display: inline-block;
+  overflow: hidden;
   margin-top: 2rem;
   padding: .75rem 2.5rem;
   border: 1px solid rgba(255,255,255,.7);
@@ -340,6 +370,17 @@ a   { text-decoration: none; color: inherit; }
   border-color: #fff;
   color: var(--clr-pink-text);
 }
+.hero-cta::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -75%;
+  width: 50%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,.55), transparent);
+  transform: skewX(-20deg);
+  transition: left .65s ease;
+  pointer-events: none;
+}
+.hero-cta:hover::after { left: 125%; }
 
 /* --- COUNTDOWN ------------------------------------------------ */
 .countdown-wrapper {
@@ -400,9 +441,9 @@ a   { text-decoration: none; color: inherit; }
    ============================================================ */
 .section { padding: 6rem 2rem; position: relative; }
 
-/* Solo rosa o blanco como fondos de sección */
-.section-pink  { background: var(--clr-pink);  color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.22); }
-.section-white { background: var(--clr-white); }
+/* Fondos de sección con gradiente sutil en vez de bloques planos */
+.section-pink  { background: var(--grad-pink-section); color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.22); }
+.section-white { background: var(--grad-ivory); }
 
 .section-header { text-align: center; margin-bottom: 4rem; }
 
@@ -425,12 +466,25 @@ a   { text-decoration: none; color: inherit; }
 .section-pink .s-title { color: #fff; }               /* blanco — sobre fondo rosa */
 
 .gold-bar {
-  width: 55px; height: 2px;
-  background: var(--clr-gold);
-  margin: 1.1rem auto 0;
+  position: relative;
+  width: 72px; height: 1px;
+  background: linear-gradient(to right, transparent, var(--clr-gold) 15%, var(--clr-gold) 85%, transparent);
+  margin: 1.3rem auto 0;
   border-radius: 2px;
 }
-.section-pink .gold-bar { background: rgba(232,215,160,.85); }
+.gold-bar::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 7px; height: 7px;
+  background: var(--clr-gold);
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 0 6px rgba(217,169,74,.55);
+}
+.section-pink .gold-bar {
+  background: linear-gradient(to right, transparent, rgba(242,223,166,.9) 15%, rgba(242,223,166,.9) 85%, transparent);
+}
+.section-pink .gold-bar::before { background: rgba(242,223,166,.95); }
 
 /* ── Scroll reveal — animaciones de entrada elegantes ── */
 .reveal { opacity: 0; }
@@ -516,15 +570,15 @@ a   { text-decoration: none; color: inherit; }
 .detail-card {
   text-align: center;
   padding: 2.5rem 1.5rem;
-  background: var(--clr-white);
+  background: var(--grad-card);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-soft);
-  border-top: 3px solid var(--clr-pink);
+  box-shadow: var(--shadow-card);
+  border-top: 3px solid var(--clr-gold);
   transition: transform var(--t), box-shadow var(--t);
 }
 .detail-card:hover {
   transform: translateY(-7px);
-  box-shadow: 0 20px 45px rgba(0,0,0,.10);
+  box-shadow: 0 20px 45px rgba(75,46,107,.16), 0 0 0 1px rgba(217,169,74,.25);
 }
 
 .detail-icon { font-size: 2rem; margin-bottom: 1rem; }
@@ -553,28 +607,135 @@ a   { text-decoration: none; color: inherit; }
 }
 
 /* ============================================================
-   GALLERY
+   GALLERY — carrusel deslizable (scroll-snap nativo)
    ============================================================ */
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: .8rem;
+.gallery-carousel {
+  position: relative;
   max-width: 1020px;
   margin: 0 auto;
 }
+
+.gallery-track {
+  display: flex;
+  gap: .9rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 13%;                 /* deja ver un "peek" de la foto siguiente/anterior */
+  scrollbar-width: none;          /* Firefox — oculta la scrollbar nativa */
+}
+.gallery-track::-webkit-scrollbar { display: none; }  /* Chrome/Safari/Edge */
+.gallery-track:focus-visible { outline: 2px solid var(--clr-gold); outline-offset: 4px; }
 
 .gallery-item {
   position: relative;
   overflow: hidden;
   border-radius: var(--radius);
   cursor: zoom-in;
-  aspect-ratio: 1 / 1;
+  flex: 0 0 74%;
+  aspect-ratio: 4 / 5;
+  scroll-snap-align: center;
 }
 
-/* última foto — franja panorámica que cierra la galería */
+/* flechas prev/next — lenguaje visual inspirado en .lb-btn, propio del carrusel */
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(217, 169, 74, .4);
+  background: rgba(255, 255, 255, .88);
+  color: var(--clr-pink-text);
+  font-size: 1.3rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: background var(--t), border-color var(--t), transform var(--t);
+}
+.gallery-arrow:hover,
+.gallery-arrow:focus-visible {
+  background: var(--clr-gold-light);
+  border-color: var(--clr-gold);
+}
+.gallery-arrow--prev { left: 2px; }
+.gallery-arrow--next { right: 2px; }
+
+/* mobile: el swipe táctil alcanza — flechas más discretas */
+@media (max-width: 768px) {
+  .gallery-arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+    opacity: .7;
+  }
+}
+
+/* dots — posición activa dentro del carrusel */
+.gallery-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+  margin-top: 1.3rem;
+}
+.gallery-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--clr-gray-light);
+  cursor: pointer;
+  transition: background var(--t), transform var(--t);
+}
+.gallery-dot.active {
+  background: var(--clr-gold);
+  transform: scale(1.35);
+}
+
+/* marco de esquina dorado — aparece al hover, en vez de solo el overlay */
+.gallery-item::before,
+.gallery-item::after {
+  content: '';
+  position: absolute;
+  width: 26px; height: 26px;
+  border: 1.5px solid var(--clr-gold);
+  opacity: 0;
+  transition: opacity var(--t);
+  z-index: 2;
+  pointer-events: none;
+}
+.gallery-item::before {
+  top: 10px; left: 10px;
+  border-right: none; border-bottom: none;
+}
+.gallery-item::after {
+  bottom: 10px; right: 10px;
+  border-left: none; border-top: none;
+}
+.gallery-item:hover::before,
+.gallery-item:hover::after { opacity: .9; }
+
+/* última foto — franja panorámica que cierra la galería, adaptada al carrusel:
+   en vez de ocupar todo el ancho del grid, es simplemente la slide más ancha */
 .gallery-item:last-child {
-  grid-column: 1 / -1;
-  aspect-ratio: 16 / 7;
+  flex: 0 0 90%;
+  aspect-ratio: 16 / 10;
+}
+
+/* desktop/tablet — menos peek, más foto visible, flechas más grandes */
+@media (min-width: 769px) {
+  .gallery-track { padding: 0 7%; gap: 1.2rem; }
+  .gallery-item { flex: 0 0 30%; aspect-ratio: 1 / 1; }
+  .gallery-item:last-child { flex: 0 0 48%; aspect-ratio: 16 / 9; }
+  .gallery-arrow { width: 50px; height: 50px; font-size: 1.5rem; }
 }
 
 .gallery-item img {
@@ -587,7 +748,7 @@ a   { text-decoration: none; color: inherit; }
 .gallery-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(156,127,201,.55), rgba(45,45,45,.40));
+  background: linear-gradient(135deg, rgba(156,127,201,.55), rgba(46,27,69,.55));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -698,6 +859,13 @@ a   { text-decoration: none; color: inherit; }
 }
 .tl-content p { font-size: 1rem; color: var(--clr-gray); }
 
+/* El vals — momento central de la noche, destacado en dorado */
+.tl-item:nth-child(3) .tl-dot {
+  background: var(--clr-gold);
+  width: 16px; height: 16px;
+  box-shadow: 0 0 0 3px var(--clr-gold-dark), 0 0 14px rgba(217,169,74,.6);
+}
+
 .tl-item:nth-child(odd) .tl-time    { grid-column: 3; text-align: left; }
 .tl-item:nth-child(odd) .tl-dot     { grid-column: 2; grid-row: 1; }
 .tl-item:nth-child(odd) .tl-content { grid-column: 1; grid-row: 1; text-align: right; }
@@ -714,9 +882,10 @@ a   { text-decoration: none; color: inherit; }
   margin: 0 auto;
   text-align: center;
   padding: 3rem 2rem;
-  background: var(--clr-white);
+  background: var(--grad-card);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(217,169,74,.25);
 }
 .gift-icon {
   width: 80px;
@@ -748,9 +917,10 @@ a   { text-decoration: none; color: inherit; }
   margin: 0 auto;
   text-align: center;
   padding: 3rem 2rem;
-  background: var(--clr-white);
+  background: var(--grad-card);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(217,169,74,.25);
 }
 .location-icon { font-size: 3rem; margin-bottom: 1rem; }
 .location-card h3 {
@@ -786,6 +956,8 @@ a   { text-decoration: none; color: inherit; }
 }
 
 .btn-pink {
+  position: relative;
+  overflow: hidden;
   background: var(--clr-pink);
   color: #fff;                       /* blanco sobre botón rosa */
   box-shadow: var(--shadow-pink);
@@ -799,6 +971,8 @@ a   { text-decoration: none; color: inherit; }
 
 /* WhatsApp — gris oscuro elegante */
 .btn-whatsapp {
+  position: relative;
+  overflow: hidden;
   background: var(--clr-gray-dark);
   color: #fff;
   font-size: .95rem;
@@ -810,6 +984,21 @@ a   { text-decoration: none; color: inherit; }
   transform: translateY(-3px);
   box-shadow: 0 10px 28px rgba(0,0,0,.25);
 }
+
+/* shimmer sutil en hover — refuerza la sensación premium */
+.btn-pink::after,
+.btn-whatsapp::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -75%;
+  width: 50%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,.45), transparent);
+  transform: skewX(-20deg);
+  transition: left .65s ease;
+  pointer-events: none;
+}
+.btn-pink:hover::after,
+.btn-whatsapp:hover::after { left: 125%; }
 
 /* ============================================================
    ACTION BUTTONS — Calendar & Share
@@ -908,7 +1097,10 @@ a   { text-decoration: none; color: inherit; }
 #confirmar { text-align: center; }
 #confirmar .s-pre   { color: var(--clr-gray); }
 #confirmar .s-title { color: var(--clr-pink-text); }
-#confirmar .gold-bar { background: var(--clr-pink); }
+#confirmar .gold-bar {
+  background: linear-gradient(to right, transparent, var(--clr-pink) 15%, var(--clr-pink) 85%, transparent);
+}
+#confirmar .gold-bar::before { background: var(--clr-pink); }
 
 .confirm-text {
   font-family: var(--ff-serif);
@@ -1009,15 +1201,33 @@ a   { text-decoration: none; color: inherit; }
 }
 
 .cr-circle {
-  width: 110px;
-  height: 110px;
+  width: 112px;
+  height: 112px;
   border-radius: 50%;
-  border: 1.5px solid rgba(232,215,160,.75);
-  box-shadow: 0 0 0 1px rgba(232,215,160,.25) inset;
+  background: radial-gradient(circle at 50% 35%, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 70%);
+  border: 1.5px solid rgba(242,223,166,.8);
+  box-shadow:
+    0 0 0 5px rgba(255,255,255,.06),
+    0 0 0 6px rgba(242,223,166,.22),
+    0 10px 28px rgba(0,0,0,.18);
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform var(--t);
 }
+.cr-item:hover .cr-circle { transform: translateY(-4px); }
+
+/* el circulo de "días" — mayor jerarquía visual, es el dato que más importa */
+.cr-item:first-child .cr-circle {
+  width: 128px;
+  height: 128px;
+  border-color: rgba(242,223,166,.95);
+  box-shadow:
+    0 0 0 5px rgba(255,255,255,.08),
+    0 0 0 7px rgba(242,223,166,.35),
+    0 12px 32px rgba(0,0,0,.22);
+}
+.cr-item:first-child .cr-circle span { font-size: 2.7rem; }
 
 .cr-circle span {
   font-family: var(--ff-serif);
@@ -1041,6 +1251,8 @@ a   { text-decoration: none; color: inherit; }
   .cr-circle { width: 80px; height: 80px; }
   .cr-circle span { font-size: 1.8rem; }
   .cr-circles { gap: 1rem; }
+  .cr-item:first-child .cr-circle { width: 92px; height: 92px; }
+  .cr-item:first-child .cr-circle span { font-size: 2rem; }
 }
 
 /* ============================================================
@@ -1116,6 +1328,15 @@ a   { text-decoration: none; color: inherit; }
   background: var(--clr-pink);
   color: #fff;
 }
+
+.map-embed {
+  width: 100%;
+  margin-top: 1.8rem;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--clr-gray-light);
+}
+.map-embed iframe { display: block; width: 100%; }
 
 /* ============================================================
    EXTRA CARDS — Vestuario / Música / Notas  (estilo Image #24)
@@ -1470,15 +1691,16 @@ footer {
 .wa-float:hover {
   transform: scale(1.12);
   background: var(--clr-pink-hover);
-  box-shadow: 0 8px 28px rgba(156,127,201,.55);
+  box-shadow: 0 8px 28px rgba(156,127,201,.55), 0 0 0 4px rgba(217,169,74,.25);
 }
 .wa-float svg { width: 26px; height: 26px; fill: #fff; }
 
 /* ============================================================
    KEYFRAMES
    ============================================================ */
-@keyframes fadeUp  { to { opacity: 1; transform: translateY(0); } }
-@keyframes fadeIn  { to { opacity: 1; } }
+@keyframes fadeUp   { to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeDown { to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn   { to { opacity: 1; } }
 @keyframes pulse   {
   0%,100% { box-shadow: 0 0 0 0   rgba(156,127,201,.5); }
   50%     { box-shadow: 0 0 0 10px rgba(156,127,201,0);  }
@@ -1526,16 +1748,6 @@ footer {
   .countdown-wrapper { gap: .2rem; bottom: 1.8rem; }
   .cd-item { min-width: 60px; padding: .7rem .7rem; }
   .cd-num  { font-size: 1.7rem; }
-
-  .gallery-grid {
-    grid-template-columns: 1fr;
-    gap: .9rem;
-  }
-  .gallery-item,
-  .gallery-item:last-child {
-    grid-column: 1;
-    aspect-ratio: 4 / 3;
-  }
 
   .timeline::before { left: 14px; }
   .tl-item {

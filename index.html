@@ -74,6 +74,15 @@
     <div class="hero-overlay" aria-hidden="true"></div>
 
     <div class="hero-content">
+      <div class="hero-crown" aria-hidden="true">
+        <svg viewBox="0 0 120 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 48 L8 30 L24 42 L36 14 L60 44 L84 14 L96 42 L112 30 L112 48 Z"/>
+          <line x1="4" y1="48" x2="116" y2="48"/>
+          <circle cx="60" cy="10" r="3.2" fill="currentColor" stroke="none"/>
+          <circle cx="36" cy="14" r="2" fill="currentColor" stroke="none"/>
+          <circle cx="84" cy="14" r="2" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
       <p class="hero-pre">Te invita a celebrar sus</p>
       <h1 class="hero-xv">XV Años</h1>
       <h2 class="hero-name">
@@ -193,8 +202,24 @@
       <p class="event-card-date">Domingo, 15 de Noviembre · 2026</p>
       <p class="event-card-time">7:00 PM</p>
       <p class="event-card-venue">Salón de Eventos Milán</p>
+      <p class="event-card-address">Popayán, Colombia</p>
 
-      <!-- TODO: pedir link de Google Maps del Salón de Eventos Milán -->
+      <a
+        href="https://share.google/Hwx3yN2UhIyH1Enzh"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-outline-pill"
+        aria-label="Abrir en Google Maps"
+      > Ir a Google Maps</a>
+
+      <div class="map-embed">
+        <iframe
+          src="https://www.google.com/maps?q=2.481158,-76.5693802&hl=es&z=18&output=embed"
+          width="100%" height="280" style="border:0;"
+          allowfullscreen="" loading="lazy"
+          title="Salón de Eventos Milán - Popayán">
+        </iframe>
+      </div>
 
       <div class="event-card-sep"></div>
 
@@ -213,42 +238,50 @@
       <div class="gold-bar reveal reveal-d2"></div>
     </div>
 
-    <div class="gallery-grid" role="list">
-      <div class="gallery-item reveal reveal-d1" role="listitem" aria-label="Ver foto 1">
-        <img src="img/fotos/Img (1).jpeg" alt="Valery Sofía - foto 1" loading="lazy" decoding="async" />
-        <div class="gallery-overlay" aria-hidden="true"><span>✦</span></div>
+    <div class="gallery-carousel">
+      <button class="gallery-arrow gallery-arrow--prev" type="button" aria-label="Foto anterior">&#8249;</button>
+
+      <div class="gallery-track" role="list" tabindex="0" aria-label="Carrusel de fotos — desliza o usa las flechas para ver más">
+        <div class="gallery-item reveal reveal-d1" role="listitem" aria-label="Ver foto 1">
+          <img src="img/fotos/Img (1).jpeg" alt="Valery Sofía - foto 1" loading="lazy" decoding="async" />
+          <div class="gallery-overlay" aria-hidden="true"><span>✦</span></div>
+        </div>
+
+        <div class="gallery-item reveal reveal-d2" role="listitem" aria-label="Ver foto 2">
+          <img src="img/fotos/Img (2).jpeg" alt="Valery Sofía - foto 2" loading="lazy" decoding="async" />
+          <div class="gallery-overlay" aria-hidden="true"><span>✦</span></div>
+        </div>
+
+        <div class="gallery-item reveal reveal-d3" role="listitem" aria-label="Ver foto 3">
+          <img src="img/fotos/Img (3).jpeg" alt="Valery Sofía - foto 3" loading="lazy" decoding="async" />
+          <div class="gallery-overlay" aria-hidden="true"><span>✦</span></div>
+        </div>
+
+        <div class="gallery-item reveal reveal-d4" role="listitem" aria-label="Ver foto 4">
+          <img src="img/fotos/Img (4).jpeg" alt="Valery Sofía - foto 4" loading="lazy" decoding="async" />
+          <div class="gallery-overlay" aria-hidden="true"><span>✦</span></div>
+        </div>
+
+        <div class="gallery-item reveal reveal-d1" role="listitem" aria-label="Ver foto 5">
+          <img src="img/fotos/Img (5).jpeg" alt="Valery Sofía - foto 5" loading="lazy" decoding="async" />
+          <div class="gallery-overlay" aria-hidden="true"><span>✦</span></div>
+        </div>
+
+        <div class="gallery-item reveal reveal-d2" role="listitem" aria-label="Ver foto 6">
+          <img src="img/fotos/img (6).jpeg" alt="Valery Sofía - foto 6" loading="lazy" decoding="async" />
+          <div class="gallery-overlay" aria-hidden="true"><span>✦</span></div>
+        </div>
+
+        <div class="gallery-item reveal reveal-d3" role="listitem" aria-label="Ver foto 7">
+          <img src="img/fotos/img (7).jpeg" alt="Valery Sofía - foto 7" loading="lazy" decoding="async" />
+          <div class="gallery-overlay" aria-hidden="true"><span>✦</span></div>
+        </div>
       </div>
 
-      <div class="gallery-item reveal reveal-d2" role="listitem" aria-label="Ver foto 2">
-        <img src="img/fotos/Img (2).jpeg" alt="Valery Sofía - foto 2" loading="lazy" decoding="async" />
-        <div class="gallery-overlay" aria-hidden="true"><span>✦</span></div>
-      </div>
-
-      <div class="gallery-item reveal reveal-d3" role="listitem" aria-label="Ver foto 3">
-        <img src="img/fotos/Img (3).jpeg" alt="Valery Sofía - foto 3" loading="lazy" decoding="async" />
-        <div class="gallery-overlay" aria-hidden="true"><span>✦</span></div>
-      </div>
-
-      <div class="gallery-item reveal reveal-d4" role="listitem" aria-label="Ver foto 4">
-        <img src="img/fotos/Img (4).jpeg" alt="Valery Sofía - foto 4" loading="lazy" decoding="async" />
-        <div class="gallery-overlay" aria-hidden="true"><span>✦</span></div>
-      </div>
-
-      <div class="gallery-item reveal reveal-d1" role="listitem" aria-label="Ver foto 5">
-        <img src="img/fotos/Img (5).jpeg" alt="Valery Sofía - foto 5" loading="lazy" decoding="async" />
-        <div class="gallery-overlay" aria-hidden="true"><span>✦</span></div>
-      </div>
-
-      <div class="gallery-item reveal reveal-d2" role="listitem" aria-label="Ver foto 6">
-        <img src="img/fotos/img (6).jpeg" alt="Valery Sofía - foto 6" loading="lazy" decoding="async" />
-        <div class="gallery-overlay" aria-hidden="true"><span>✦</span></div>
-      </div>
-
-      <div class="gallery-item reveal reveal-d3" role="listitem" aria-label="Ver foto 7">
-        <img src="img/fotos/img (7).jpeg" alt="Valery Sofía - foto 7" loading="lazy" decoding="async" />
-        <div class="gallery-overlay" aria-hidden="true"><span>✦</span></div>
-      </div>
+      <button class="gallery-arrow gallery-arrow--next" type="button" aria-label="Foto siguiente">&#8250;</button>
     </div>
+
+    <div class="gallery-dots" role="tablist" aria-label="Posición en la galería"></div>
   </section>
 
   <!-- ══════════════════════════════
@@ -273,7 +306,7 @@
       </div>
 
       <div class="tl-item reveal reveal-d1" role="listitem">
-        <div class="tl-time">Por definir</div>
+        <div class="tl-time">8:45 PM</div>
         <div class="tl-dot" aria-hidden="true"></div>
         <div class="tl-content">
           <h4>Brindis</h4>
@@ -282,15 +315,6 @@
       </div>
 
       <div class="tl-item reveal reveal-d2" role="listitem">
-        <div class="tl-time">Por definir</div>
-        <div class="tl-dot" aria-hidden="true"></div>
-        <div class="tl-content">
-          <h4>Cena</h4>
-          <p>Banquete para todos los asistentes</p>
-        </div>
-      </div>
-
-      <div class="tl-item reveal reveal-d3" role="listitem">
         <div class="tl-time">9:00 PM</div>
         <div class="tl-dot" aria-hidden="true"></div>
         <div class="tl-content">
@@ -299,8 +323,17 @@
         </div>
       </div>
 
+      <div class="tl-item reveal reveal-d3" role="listitem">
+        <div class="tl-time">9:30 PM</div>
+        <div class="tl-dot" aria-hidden="true"></div>
+        <div class="tl-content">
+          <h4>Cena</h4>
+          <p>Banquete para todos los asistentes</p>
+        </div>
+      </div>
+
       <div class="tl-item reveal reveal-d4" role="listitem">
-        <div class="tl-time">Por definir</div>
+        <div class="tl-time">10:00 PM</div>
         <div class="tl-dot" aria-hidden="true"></div>
         <div class="tl-content">
           <h4>Inicio de Fiesta</h4>
@@ -319,7 +352,7 @@
       <path d="M0,55 C250,15 550,90 900,50 C1150,20 1320,70 1440,30 L1440,110 L0,110 Z"
             fill="#9C7FC9" opacity="0.15"/>
       <path d="M0,42 C300,5 700,78 1050,38 C1250,12 1380,55 1440,22"
-            fill="none" stroke="#C8A24C" stroke-width="1.5" opacity="0.5"/>
+            fill="none" stroke="#D9A94A" stroke-width="1.5" opacity="0.5"/>
     </svg>
   </div>
 
@@ -436,7 +469,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 56" fill="none">
           <rect x="2" y="10" width="68" height="44" rx="5" stroke="#9C7FC9" stroke-width="2.5"/>
           <path d="M2 18 L36 38 L70 18" stroke="#9C7FC9" stroke-width="2.5" stroke-linejoin="round"/>
-          <path d="M36 24 C36 24 27 16.5 27 11.5 C27 7.8 29.7 5.5 36 9.5 C42.3 5.5 45 7.8 45 11.5 C45 16.5 36 24 36 24Z" fill="#C8A24C" opacity="0.85"/>
+          <path d="M36 24 C36 24 27 16.5 27 11.5 C27 7.8 29.7 5.5 36 9.5 C42.3 5.5 45 7.8 45 11.5 C45 16.5 36 24 36 24Z" fill="#D9A94A" opacity="0.85"/>
         </svg>
       </div>
       <h3>Lluvia de Sobres</h3>
@@ -452,7 +485,7 @@
     <svg viewBox="0 0 1440 110" preserveAspectRatio="none">
       <path d="M0,75 C200,30 400,100 720,60 C1000,25 1260,85 1440,45 L1440,110 L0,110 Z" fill="#9C7FC9" opacity="0.28"/>
       <path d="M0,55 C250,15 550,90 900,50 C1150,20 1320,70 1440,30 L1440,110 L0,110 Z" fill="#9C7FC9" opacity="0.15"/>
-      <path d="M0,42 C300,5 700,78 1050,38 C1250,12 1380,55 1440,22" fill="none" stroke="#C8A24C" stroke-width="1.5" opacity="0.5"/>
+      <path d="M0,42 C300,5 700,78 1050,38 C1250,12 1380,55 1440,22" fill="none" stroke="#D9A94A" stroke-width="1.5" opacity="0.5"/>
     </svg>
   </div>
 
@@ -577,7 +610,7 @@
             <path d="M18 31 Q30 27 42 31 L44 67 L16 67 Z"/>
             <rect x="16" y="66" width="11" height="26" rx="3"/>
             <rect x="33" y="66" width="11" height="26" rx="3"/>
-            <path d="M30 31 L27 43 L30 51 L33 43 Z" fill="#C8A24C" opacity="1"/>
+            <path d="M30 31 L27 43 L30 51 L33 43 Z" fill="#D9A94A" opacity="1"/>
           </svg>
           <p class="silhouette-role">HOMBRES</p>
           <p class="silhouette-desc">Traje Formal / Gala</p>
@@ -591,7 +624,7 @@
       <div class="color-swatches">
         <span class="color-swatch" style="background:#D9C8EC"></span>
         <span class="color-swatch" style="background:#9C7FC9"></span>
-        <span class="color-swatch" style="background:#C8A24C"></span>
+        <span class="color-swatch" style="background:#D9A94A"></span>
       </div>
     </div>
   </div>

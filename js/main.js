@@ -73,7 +73,7 @@ window.addEventListener('load', () => {
   resize();
   window.addEventListener('resize', resize);
 
-  const COLORS = ['#9C7FC9', '#B79FDA', '#D9C8EC', '#7E62A8', '#C8A24C'];
+  const COLORS = ['#9C7FC9', '#B79FDA', '#D9C8EC', '#7E62A8', '#4B2E6B', '#D9A94A'];
 
   class Petal {
     constructor(randomY = false) { this.init(randomY); }
@@ -255,6 +255,138 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft')  openLightbox(lbIndex - 1);
   if (e.key === 'ArrowRight') openLightbox(lbIndex + 1);
 });
+
+/* ============================================================
+   GALLERY CAROUSEL — dots + flechas, sincronizados por scroll
+   El tap/click en una foto sigue abriendo el lightbox (listener
+   de arriba, sin tocar) — esto solo agrega navegación visual.
+   ============================================================ */
+(function () {
+  const track    = document.querySelector('.gallery-track');
+  const items    = document.querySelectorAll('.gallery-track .gallery-item');
+  const dotsWrap = document.querySelector('.gallery-dots');
+  const prevBtn  = document.querySelector('.gallery-arrow--prev');
+  const nextBtn  = document.querySelector('.gallery-arrow--next');
+
+  if (!track || !items.length || !dotsWrap) return;
+
+  // Detecta la foto centrada por posición real de scroll — con el "peek"
+  // activado, varias fotos quedan parcialmente visibles a la vez y el
+  // IntersectionObserver por ratio se queda pegado en el índice 0.
+  // Esto en cambio mide qué foto está geométricamente más cerca del
+  // centro del track, que es justo lo que decide scroll-snap-align:center.
+  function closestIndexToCenter() {
+    const trackCenter = track.getBoundingClientRect().left + track.clientWidth / 2;
+    let bestIdx = 0, bestDist = Infinity;
+    items.forEach((item, idx) => {
+      const r = item.getBoundingClientRect();
+      const dist = Math.abs((r.left + r.width / 2) - trackCenter);
+      if (dist < bestDist) { bestDist = dist; bestIdx = idx; }
+    });
+    return bestIdx;
+  }
+
+  // Posición de scroll que centra una foto dada — calculada a mano en vez
+  // de confiar en scrollIntoView(inline:'center'), que cerca de los bordes
+  // del track se clampea sin moverse (no hay espacio real para centrar) y
+  // deja los botones "pegados" sin feedback visible.
+  function scrollLeftToCenter(item) {
+    const max = track.scrollWidth - track.clientWidth;
+    const raw = item.offsetLeft - (track.clientWidth - item.offsetWidth) / 2;
+    return Math.max(0, Math.min(max, raw));
+  }
+
+  function goToIndex(i) {
+    const idx = Math.max(0, Math.min(items.length - 1, i));
+    track.scrollTo({ left: scrollLeftToCenter(items[idx]), behavior: 'smooth' });
+  }
+  function goToIndexLooping(i) {
+    goToIndex((i + items.length) % items.length);
+  }
+
+  // Construye los dots en base a la cantidad real de fotos (no hardcodeado)
+  const dots = Array.from(items).map((item, i) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'gallery-dot';
+    dot.setAttribute('role', 'tab');
+    dot.setAttribute('aria-label', `Ir a foto ${i + 1}`);
+    dot.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    dot.addEventListener('click', () => goToIndex(i));
+    dotsWrap.appendChild(dot);
+    return dot;
+  });
+  dots[0].classList.add('active');
+
+  let activeIndex = 0;
+  function setActive(i) {
+    if (i === activeIndex) return;
+    activeIndex = i;
+    dots.forEach((d, idx) => {
+      d.classList.toggle('active', idx === i);
+      d.setAttribute('aria-selected', idx === i ? 'true' : 'false');
+    });
+  }
+
+  let scrollRaf = null;
+  track.addEventListener('scroll', () => {
+    if (scrollRaf) return;
+    scrollRaf = requestAnimationFrame(() => {
+      scrollRaf = null;
+      setActive(closestIndexToCenter());
+    });
+  }, { passive: true });
+
+  // Las flechas siempre parten del índice real (closestIndexToCenter), no de
+  // `activeIndex` guardado — así no dependen de que el evento 'scroll' se
+  // haya disparado a tiempo.
+  prevBtn?.addEventListener('click', () => goToIndex(closestIndexToCenter() - 1));
+  nextBtn?.addEventListener('click', () => goToIndex(closestIndexToCenter() + 1));
+
+  // ── Autoplay en bucle — desliza suave de derecha a izquierda,
+  // se pausa ante cualquier interacción del usuario y retoma sola.
+  const AUTOPLAY_DELAY = 4000;
+  let autoplayTimer = null;
+
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayTimer = setInterval(() => goToIndexLooping(closestIndexToCenter() + 1), AUTOPLAY_DELAY);
+  }
+  function stopAutoplay() {
+    clearInterval(autoplayTimer);
+    autoplayTimer = null;
+  }
+
+  let resumeTimer = null;
+  function pauseAutoplayTemporarily() {
+    stopAutoplay();
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(startAutoplay, AUTOPLAY_DELAY * 2);
+  }
+
+  // Solo un toque/arrastre real sobre el track (o flechas/dots) pausa el
+  // autoplay — un "wheel" se descartó porque se disparaba con cualquier
+  // scroll de la página que pasara por encima de la galería.
+  track.addEventListener('pointerdown', pauseAutoplayTemporarily, { passive: true });
+  prevBtn?.addEventListener('click', pauseAutoplayTemporarily);
+  nextBtn?.addEventListener('click', pauseAutoplayTemporarily);
+  dots.forEach(d => d.addEventListener('click', pauseAutoplayTemporarily));
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopAutoplay(); else startAutoplay();
+  });
+
+  // Se pausa mientras el lightbox está abierto (misma instancia que el lightbox de arriba)
+  const lightboxEl = document.getElementById('lightbox');
+  if (lightboxEl) {
+    new MutationObserver(() => {
+      if (lightboxEl.classList.contains('active')) stopAutoplay();
+      else startAutoplay();
+    }).observe(lightboxEl, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  startAutoplay();
+})();
 
 /* ============================================================
    MUSIC BUTTON — pause / play directo sobre el audio HTML5
