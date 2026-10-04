@@ -264,6 +264,24 @@ a   { text-decoration: none; color: inherit; }
   );
 }
 
+/* Ramos decorativos de esquina — mismo activo espejado en el lado opuesto */
+.hero-flower {
+  position: absolute;
+  width: 240px;
+  max-width: 42vw;
+  opacity: .95;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 22px rgba(16, 8, 26, .35));
+}
+.hero-flower--tl { top: -36px; left: -40px; }
+.hero-flower--br { bottom: -36px; right: -40px; transform: scaleX(-1); }
+
+@media (max-width: 600px) {
+  .hero-flower { width: 140px; opacity: .85; }
+  .hero-flower--tl { top: -18px; left: -30px; }
+  .hero-flower--br { bottom: -50px; right: -46px; }
+}
+
 .hero-content {
   position: relative;
   z-index: 3;
@@ -1022,6 +1040,16 @@ a   { text-decoration: none; color: inherit; }
   transition: all var(--t);
   margin: 0 .35rem .75rem;
 }
+
+.btn-share {
+  animation: sharePulse 2.6s ease-in-out infinite;
+}
+@keyframes sharePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(156, 127, 201, .45); }
+  50%      { box-shadow: 0 0 0 9px rgba(156, 127, 201, 0); }
+}
+.btn-share:hover { animation-play-state: paused; }
+
 .btn-calendar:hover,
 .btn-share:hover {
   background: var(--clr-pink);
@@ -1094,13 +1122,29 @@ a   { text-decoration: none; color: inherit; }
 /* ============================================================
    CONFIRM SECTION
    ============================================================ */
-#confirmar { text-align: center; }
+#confirmar { text-align: center; overflow: hidden; }
 #confirmar .s-pre   { color: var(--clr-gray); }
 #confirmar .s-title { color: var(--clr-pink-text); }
 #confirmar .gold-bar {
   background: linear-gradient(to right, transparent, var(--clr-pink) 15%, var(--clr-pink) 85%, transparent);
 }
 #confirmar .gold-bar::before { background: var(--clr-pink); }
+
+.confirm-flower {
+  position: absolute;
+  width: 170px;
+  max-width: 34vw;
+  opacity: .85;
+  pointer-events: none;
+}
+.confirm-flower--tl { top: 12px; left: -32px; }
+.confirm-flower--br { bottom: 12px; right: -32px; transform: scaleX(-1); }
+
+@media (max-width: 600px) {
+  .confirm-flower { width: 120px; opacity: .7; }
+  .confirm-flower--tl { top: -6px; left: -26px; }
+  .confirm-flower--br { bottom: -6px; right: -26px; }
+}
 
 .confirm-text {
   font-family: var(--ff-serif);
