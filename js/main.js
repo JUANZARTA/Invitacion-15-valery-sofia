@@ -270,6 +270,13 @@ document.addEventListener('keydown', e => {
 
   if (!track || !items.length || !dotsWrap) return;
 
+  // Chromium aplica scroll-behavior:smooth (del CSS) también a la asignación
+  // directa de scrollLeft, no solo a scrollTo(). Eso rompe el autoplay
+  // continuo (cada frame reinicia una animación que nunca llega a moverse).
+  // Lo forzamos a instantáneo acá; las flechas/dots siguen suaves porque
+  // scrollTo({behavior:'smooth'}) pasa el comportamiento explícito.
+  track.style.scrollBehavior = 'auto';
+
   // Detecta la foto centrada por posición real de scroll — con el "peek"
   // activado, varias fotos quedan parcialmente visibles a la vez y el
   // IntersectionObserver por ratio se queda pegado en el índice 0.
@@ -299,9 +306,6 @@ document.addEventListener('keydown', e => {
   function goToIndex(i) {
     const idx = Math.max(0, Math.min(items.length - 1, i));
     track.scrollTo({ left: scrollLeftToCenter(items[idx]), behavior: 'smooth' });
-  }
-  function goToIndexLooping(i) {
-    goToIndex((i + items.length) % items.length);
   }
 
   // Construye los dots en base a la cantidad real de fotos (no hardcodeado)
@@ -343,25 +347,45 @@ document.addEventListener('keydown', e => {
   prevBtn?.addEventListener('click', () => goToIndex(closestIndexToCenter() - 1));
   nextBtn?.addEventListener('click', () => goToIndex(closestIndexToCenter() + 1));
 
-  // ── Autoplay en bucle — desliza suave de derecha a izquierda,
-  // se pausa ante cualquier interacción del usuario y retoma sola.
-  const AUTOPLAY_DELAY = 4000;
-  let autoplayTimer = null;
+  // ── Autoplay continuo — desliza sin parar, de a poco, en vez de saltar
+  // entre fotos. Avanza el scrollLeft directo cuadro a cuadro (bypassea el
+  // scroll-behavior:smooth, que solo aplica a scrollTo/scrollIntoView, no a
+  // la asignación directa) y se pausa ante cualquier interacción real.
+  const AUTOPLAY_SPEED = 0.45; // px por frame (~27px/s) — ajustable
+  const AUTOPLAY_RESUME_DELAY = 3500;
+  let autoplayRaf = null;
+  let autoplayActive = false;
+  let continuousPos = 0; // acumulador propio — track.scrollLeft redondea a
+                          // pixel entero, así que sumarle un valor sub-pixel
+                          // una y otra vez al valor leído nunca progresa.
 
+  function autoplayStep() {
+    if (!autoplayActive) return;
+    const max = track.scrollWidth - track.clientWidth;
+    continuousPos += AUTOPLAY_SPEED;
+    if (continuousPos >= max) continuousPos = 0; // único salto del ciclo
+    track.scrollLeft = continuousPos;
+    autoplayRaf = requestAnimationFrame(autoplayStep);
+  }
   function startAutoplay() {
-    stopAutoplay();
-    autoplayTimer = setInterval(() => goToIndexLooping(closestIndexToCenter() + 1), AUTOPLAY_DELAY);
+    if (autoplayActive) return;
+    autoplayActive = true;
+    continuousPos = track.scrollLeft; // re-sincroniza si el usuario movió el carrusel
+    track.style.scrollSnapType = 'none'; // mandatory corrige cualquier scroll manual de vuelta al punto de snap
+    autoplayRaf = requestAnimationFrame(autoplayStep);
   }
   function stopAutoplay() {
-    clearInterval(autoplayTimer);
-    autoplayTimer = null;
+    autoplayActive = false;
+    if (autoplayRaf) cancelAnimationFrame(autoplayRaf);
+    autoplayRaf = null;
+    track.style.scrollSnapType = ''; // vuelve al snap normal (CSS) para el swipe manual
   }
 
   let resumeTimer = null;
   function pauseAutoplayTemporarily() {
     stopAutoplay();
     clearTimeout(resumeTimer);
-    resumeTimer = setTimeout(startAutoplay, AUTOPLAY_DELAY * 2);
+    resumeTimer = setTimeout(startAutoplay, AUTOPLAY_RESUME_DELAY);
   }
 
   // Solo un toque/arrastre real sobre el track (o flechas/dots) pausa el
